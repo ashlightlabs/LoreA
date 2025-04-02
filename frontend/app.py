@@ -4,11 +4,28 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 import streamlit as st
-from backend.app.services.core import add_lore_to_db, get_all_lore_from_db, generate_text_from_lore, init_db, update_lore_entry, delete_lore_entry_by_title
-
-st.title("AI Lore Assistant")
+from backend.app.services.core import add_lore_to_db, get_all_lore_from_db, generate_text_from_lore, init_db, update_lore_entry, delete_lore_entry_by_title, get_setting, set_setting
 
 init_db()
+
+# Load from DB
+current_title = get_setting("app_title", "Lore Assistant")
+current_desc = get_setting("app_description", "")
+
+# Show on page
+st.title(current_title)
+if current_desc.strip():
+    st.markdown(f"_{current_desc}_")
+
+# Editor hidden in an expander
+with st.expander("Edit Project Info"):
+    new_title = st.text_input("Project title", value=current_title)
+    new_desc = st.text_area("Project description", value=current_desc, height=100)
+    if st.button("Save Project Info"):
+        set_setting("app_title", new_title)
+        set_setting("app_description", new_desc)
+        st.success("Project info updated!")
+        st.rerun()
 
 with st.form("Add Lore"):
     title = st.text_input("Title")
