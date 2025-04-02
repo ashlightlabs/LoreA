@@ -27,14 +27,35 @@ with st.expander("Edit Project Info"):
         st.success("Project info updated!")
         st.rerun()
 
+# Initialize form state only once
+for key in ["new_title", "new_content", "new_tags", "form_status", "form_submitted"]:
+    if key not in st.session_state:
+        st.session_state[key] = ""
+
+# Clear fields BEFORE widgets render if last form was submitted
+if st.session_state["form_submitted"]:
+    st.session_state["new_title"] = ""
+    st.session_state["new_content"] = ""
+    st.session_state["new_tags"] = ""
+    st.session_state["form_submitted"] = False
+
 with st.form("Add Lore"):
-    title = st.text_input("Title")
-    content = st.text_area("Content")
-    tags = st.text_input("Tags (comma-separated)")
+    title = st.text_input("Title", key="new_title")
+    content = st.text_area("Content", key="new_content")
+    tags = st.text_input("Tags (comma-separated)", key="new_tags")
+
     submitted = st.form_submit_button("Add Lore")
+
     if submitted:
         add_lore_to_db(title, content, [t.strip() for t in tags.split(",")])
-        st.success("Lore added.")
+        st.session_state["form_status"] = "Lore added!"
+        st.session_state["form_submitted"] = True
+        st.rerun()
+
+# Show success message
+if st.session_state["form_status"]:
+    st.success(st.session_state["form_status"])
+    st.session_state["form_status"] = ""
 
 st.header("All Lore Entries (Editable)")
 lore_entries = get_all_lore_from_db()
