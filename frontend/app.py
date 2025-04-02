@@ -1,3 +1,4 @@
+import json
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -56,6 +57,49 @@ with st.form("Add Lore"):
 if st.session_state["form_status"]:
     st.success(st.session_state["form_status"])
     st.session_state["form_status"] = ""
+
+with st.expander("📥 Import Lore"):
+    st.markdown("Upload a `.json` file or paste JSON to bulk-import lore entries.")
+
+    uploaded_file = st.file_uploader("Upload JSON File", type=["json"])
+    raw_json = st.text_area("Or paste raw JSON")
+
+    if st.button("Import Lore"):
+        try:
+            if uploaded_file:
+                import_data = json.load(uploaded_file)
+            elif raw_json.strip():
+                import_data = json.loads(raw_json)
+            else:
+                st.warning("Please upload a file or paste valid JSON.")
+                import_data = None
+
+            if import_data:
+                if isinstance(import_data, dict):
+                    import_data = [import_data]
+
+                # Get existing titles
+                existing_titles = {entry["title"] for entry in get_all_lore_from_db()}
+
+                imported_count = 0
+                skipped_titles = []
+
+                for entry in import_data:
+                    if all(k in entry for k in ["title", "content", "tags"]):
+                        if entry["title"] in existing_titles:
+                            skipped_titles.append(entry["title"])
+                        else:
+                            add_lore_to_db(entry["title"], entry["content"], entry["tags"])
+                            imported_count += 1
+
+                st.success(f"Imported {imported_count} new entries.")
+                if skipped_titles:
+                    st.warning(f"Skipped {len(skipped_titles)} duplicate titles: {', '.join(skipped_titles)}")
+                st.rerun()
+
+        except Exception as e:
+            st.error(f"Failed to import JSON: {e}")
+
 
 st.header("All Lore Entries (Editable)")
 lore_entries = get_all_lore_from_db()
