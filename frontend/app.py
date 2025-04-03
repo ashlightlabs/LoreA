@@ -13,6 +13,14 @@ init_db()
 current_title = get_setting("app_title", "Lore Assistant")
 current_desc = get_setting("app_description", "")
 
+st.markdown(
+    """
+    ### 💬 [Give Feedback](https://docs.google.com/forms/d/e/1FAIpQLSfHAVzQDC0JXzz-aIxWum93DopQ7DHIlSUmMRuIA17HD6V5eA/viewform?usp=header)
+    Let us know what’s working and what could be better.
+    """,
+    unsafe_allow_html=True
+)
+
 # Show on page
 st.title(current_title)
 if current_desc.strip():
