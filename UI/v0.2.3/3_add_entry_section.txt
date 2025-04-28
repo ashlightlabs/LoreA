@@ -1,0 +1,10 @@
+
+Add New Lore Entry Section
+---------------------------
+[Expander] 📚 Add a New Lore Entry (Template-Based)
+    - Dropdown: Select a lore template
+    - Dynamic Inputs:
+        - Name
+        - Role / Description / Motivation / etc (based on template)
+        - Tags (comma separated)
+    - Button: Save Lore Entry from Template

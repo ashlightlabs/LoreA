@@ -1,0 +1,79 @@
+[
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Kael Thorne",
+      "Role": "Disgraced Knight",
+      "Motivation": "Redemption for a failed mission",
+      "Relationships": "Mentor to Ryn; Former commander in Ashen Guard",
+      "Tags": ["tragic", "warrior", "outcast"]
+    },
+    "linked_entries": ["Ryn", "Order of the Black Flame", "The Siege of Aethergate"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Ryn",
+      "Role": "Young apprentice with a gift for elemental magic",
+      "Motivation": "Prove her worth outside Kael’s shadow",
+      "Relationships": "Protégé of Kael Thorne",
+      "Tags": ["mage", "apprentice", "fiery"]
+    },
+    "linked_entries": ["Kael Thorne", "The Emberlight Syndicate"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Blackspire Wastes",
+      "Description": "Volcanic ruin once home to the Ashen Guard. Twisted remnants of its past burn beneath the surface.",
+      "Mood": "Oppressive, desolate, cursed",
+      "Significance": "The Order of the Black Flame’s birthplace and battlefield of Aethergate",
+      "Tags": ["ruin", "volcanic", "dark magic"]
+    },
+    "linked_entries": ["Order of the Black Flame", "The Siege of Aethergate"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "Order of the Black Flame",
+      "Goals": "Resurrect the Primordial Flame and remake the world",
+      "Beliefs / Code": "Pain purifies; ash is sacred",
+      "Allies / Enemies": "Opposes the Emberlight Syndicate; aligned with Kael in the past",
+      "Tags": ["cult", "fire", "rebirth"]
+    },
+    "linked_entries": ["Kael Thorne", "The Blackspire Wastes", "The Siege of Aethergate"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "The Emberlight Syndicate",
+      "Goals": "Preserve elemental balance and freedom",
+      "Beliefs / Code": "No flame burns without air; magic must be earned",
+      "Allies / Enemies": "Trains mages like Ryn; opposes the Order of the Black Flame",
+      "Tags": ["magic", "resistance", "order"]
+    },
+    "linked_entries": ["Ryn", "The Siege of Aethergate"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Siege of Aethergate",
+      "Summary": "The final standoff between the Emberlight Syndicate and the Order of the Black Flame.",
+      "Who Was Involved": "Kael Thorne, Ryn, Order of the Black Flame, Emberlight Syndicate",
+      "Why It Matters": "Marked the end of the Elemental War and the downfall of the Ashen Guard",
+      "Tags": ["war", "fall", "climax"]
+    },
+    "linked_entries": ["Kael Thorne", "Ryn", "Order of the Black Flame", "The Emberlight Syndicate", "The Blackspire Wastes"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Ashen Sigil",
+      "Description": "A scorched medallion worn by Black Flame elites. Glows when near deep elemental energy.",
+      "Powers / Purpose": "Enhances destructive magic, links minds of its bearers",
+      "Origin / Lore": "Forged in the Blackspire Wastes and carried by Kael before his exile",
+      "Tags": ["artifact", "dark magic", "symbol"]
+    },
+    "linked_entries": ["Kael Thorne", "Order of the Black Flame", "The Blackspire Wastes"]
+  }
+]

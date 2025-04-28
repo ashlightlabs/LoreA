@@ -1,0 +1,16 @@
+
+Lore Entries Section
+--------------------
+[Expander] 📖 Lore Entries
+
+--- For Each Entry ---
+[Expander] Title (Template)
+
+Inside each expanded entry:
+    - Displayed Fields:
+        - Field 1: Value
+        - Field 2: Value
+        - Field 3: Value
+        - Tags: [tag1, tag2, tag3]
+
+    - Button: Delete Entry

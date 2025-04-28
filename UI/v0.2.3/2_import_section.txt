@@ -1,0 +1,8 @@
+
+Import Lore Entries Section
+---------------------------
+[Expander] 📂 Import Lore Entries (JSON)
+    - File Upload: Upload JSON file
+    - OR
+    - Textarea: Paste JSON directly
+    - Button: Import Pasted JSON

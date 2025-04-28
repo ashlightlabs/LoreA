@@ -1,0 +1,7 @@
+
+Filter Section
+--------------
+[Expander] 🔍 Filter Lore Entries
+    - Search Box: Search all entries
+    - Dropdown: Filter by Template
+    - Dropdown: Filter by Tags

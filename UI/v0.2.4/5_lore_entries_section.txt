@@ -1,0 +1,21 @@
+
+Lore Entries Section
+--------------------
+[Expander] 📖 Lore Entries
+
+--- For Each Entry ---
+[Expander] Title (Template)
+
+Inside each expanded entry:
+    - Displayed Fields:
+        - Field 1: Value
+        - Field 2: Value
+        - Field 3: Value
+        - Tags: [tag1, tag2, tag3]
+
+    - Relationships:  
+        - Existing Relationships:
+         - Relationship 1 (Type) [View] [Remove]
+         - Relationship N (Type) [View] [Remove]
+        Button: Add Relationship    
+    - Button: Delete Entry

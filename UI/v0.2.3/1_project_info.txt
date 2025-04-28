@@ -1,0 +1,10 @@
+
+Project Info Section
+--------------------
+Header: Project Title (editable inline)
+
+[Expander] ✏️ Edit Project Info
+    - Input: Project Title
+    - Button: Save Title
+    - Textarea: Project Description
+    - Button: Save Description

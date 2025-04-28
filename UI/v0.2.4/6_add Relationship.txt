@@ -1,0 +1,9 @@
+Search for Entry to Link:
+[ Search Box ] (search by name / tag / template)
+
+Dropdown: Filter by Template (Optional)
+
+Search Results:
+- [Name] (Template) [Add Link]
+- [Name] (Template) [Add Link]
+- [Name] (Template) [Add Link]
