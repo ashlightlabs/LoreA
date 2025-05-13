@@ -24,6 +24,26 @@ def get_db_connection() -> Generator[sqlite3.Connection, None, None]:
     finally:
         conn.close()
 
+def clean_duplicate_entries():
+    """Remove duplicate entries keeping only the most recent version."""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        # Find duplicates
+        cursor.execute('''
+            WITH DuplicateTitles AS (
+                SELECT title, COUNT(*) as count, MAX(id) as latest_id
+                FROM lore
+                GROUP BY title
+                HAVING count > 1
+            )
+            DELETE FROM lore 
+            WHERE title IN (SELECT title FROM DuplicateTitles)
+            AND id NOT IN (SELECT latest_id FROM DuplicateTitles)
+        ''')
+        deleted_count = cursor.rowcount
+        conn.commit()
+        return deleted_count
+
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -45,6 +65,11 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
+    
+    # Check for and clean up duplicates
+    deleted_count = clean_duplicate_entries()
+    if deleted_count > 0:
+        print(f"Cleaned up {deleted_count} duplicate entries")
 
 def embed_text(text: str) -> npt.NDArray[np.float32]:
     """Generate embeddings for input text using OpenAI's API.
@@ -238,6 +263,13 @@ def delete_lore_entry_by_title(title: str) -> None:
     conn.commit()
     conn.close()
 
+def delete_settings() -> None:
+    """Delete all settings from the database."""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM settings')
+        conn.commit()
+
 def delete_all_entries() -> None:
     """Delete all entries from the lore database."""
     with get_db_connection() as conn:
@@ -428,3 +460,18 @@ def generate_field_content(
     )
     
     return content.strip()
+
+def process_template_fields(template_fields: Dict[str, Any]) -> tuple[Dict[str, Any], List[str]]:
+    """Process template fields and extract tags.
+    Returns tuple of (fields_dict, tags)."""
+    fields_dict = {}
+    tags = []
+    
+    for field, value in template_fields.items():
+        if field == "Tags":
+            tags = value  # Tags are already a list from the input processing
+        else:
+            fields_dict[field] = value
+            
+    fields_dict["Tags"] = tags
+    return fields_dict, tags
