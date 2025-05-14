@@ -28,7 +28,11 @@ from backend.app.services.core import (
     process_template_fields  # Add this import
 )
 
-init_db()
+if ("initializedDB" not in st.session_state) or (st.session_state.initializedDB == False):
+    # Initialize the database
+    init_db()
+    st.session_state.initializedDB = True
+
 st.set_page_config(page_title="Lore Assistant", layout="wide")
 
 # Initialize all session state variables BEFORE any UI elements
@@ -58,6 +62,59 @@ if "last_created_entry" not in st.session_state:
     st.session_state.last_created_entry = None
 if "selected_entry_title" not in st.session_state:
     st.session_state.selected_category = "Character"
+if "entries_per_page" not in st.session_state:
+    st.session_state.entries_per_page = 2
+if "page_numbers" not in st.session_state:
+    st.session_state.page_numbers = {}
+if "import_status" not in st.session_state:
+    st.session_state.import_status = None
+
+def import_entries_with_progress(entries, update_settings=False, sample_title=None, sample_desc=None):
+    """Import entries with progress tracking."""
+    total = len(entries)
+    progress_text = st.empty()
+    progress_bar = st.progress(0)
+    
+    try:
+        # Update settings if provided
+        if update_settings:
+            progress_text.text("📝 Updating project settings...")
+            progress_bar.progress(0.1)
+            st.session_state.project_title = sample_title
+            st.session_state.project_description = sample_desc
+            set_setting("project_title", sample_title)
+            set_setting("project_description", sample_desc)
+        
+        # Group entries by template
+        progress_text.text("🗂️ Organizing entries...")
+        progress_bar.progress(0.2)
+        entries_by_type = {}
+        for entry in entries:
+            template = entry["template"]
+            if template not in entries_by_type:
+                entries_by_type[template] = []
+            entries_by_type[template].append(entry)
+        
+        # Import entries with progress updates
+        completed = 0
+        for template, template_entries in entries_by_type.items():
+            progress_text.text(f"✨ Creating {template}s...")
+            for entry in template_entries:
+                add_lore_to_db(
+                    title=entry["fields"]["Name"],
+                    content=entry["fields"],
+                    tags=entry["fields"].get("Tags", []),
+                    template=entry["template"]
+                )
+                completed += 1
+                progress_bar.progress(0.2 + (0.8 * (completed / total)))
+        
+        progress_text.text("✅ Import complete!")
+        progress_bar.progress(1.0)
+        return True
+    except Exception as e:
+        progress_text.text(f"❌ Import failed: {str(e)}")
+        return False
 
 # Now create the layout
 col1, col2 = st.columns([6, 1])
@@ -219,14 +276,48 @@ FIELD_TO_STYLES = {
 entries = get_all_lore_from_db()
 expanded = False
 if(entries == []):
-    st.markdown("🗺️ **Welcome to LoreA!**")
-    st.markdown("Let’s start building your world.")
-    st.markdown("Create a **character**, **location**, or **artifact** using the entry form below.")
+    st.markdown("""
+        ### 🗺️ Welcome to LoreA
+
+        **Your journey begins here.**  
+        Every world needs a name, a map, a cast of legends — yours is waiting to be written.
+
+        Start by forging a **character**, uncovering a **location**, or discovering a forgotten **artifact** using the **Lore Entry** below.  
+        Each entry is a step deeper into the world you're creating.
+
+        Once you've begun, the **Lore Assistant** stands ready to help you expand your universe — suggesting details, deepening connections, and unlocking new possibilities.
+
+        ---
+
+        **Not sure where to begin?**  
+        Use the button below to populate your world with a few starting entries and dive straight into the adventure.
+
+    """)
     
-    st.markdown("Once you have some entries, you can use the Lore Assistant to generate content and manage your lore.")
+    # Add FTUE data import button
+    ftue_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "lore_json", "lorea_ftue_50_entries.json")
+    if os.path.exists(ftue_path):
+        if st.button("🪄 Load Sample World"):
+            with st.spinner("📚 Loading sample world..."):
+                try:
+                    with open(ftue_path, 'r', encoding='utf-8') as f:
+                        sample_entries = json.load(f)
+                    
+                    success = import_entries_with_progress(
+                        sample_entries,
+                        update_settings=True,
+                        sample_title="Chroma",
+                        sample_desc="""In the year 2187, the city of New Carthage hangs on the edge of memory and malfunction. Synthetics drift through identity loops, rogue AIs whisper beneath flooded servers, and fractured collectives fight to reclaim agency from decaying infrastructure."""
+                    )
+                    
+                    if success:
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"Failed to load sample world: {e}")
     expanded = True
+
 with st.expander("📝 Add New Entry", expanded):
-    st.subheader("Template-Based Entry")
+    st.subheader("Lore Entry")
     selected_template = st.selectbox("Select a lore template", list(LORE_TEMPLATES.keys()), key="template_select")
     
     template_fields = {}
@@ -345,23 +436,24 @@ def display_entry(entry: Dict[str, Any]) -> None:
         
         with st.expander("About LoreA", expanded=True):
             st.markdown("""
-                #### Your AI Writing Assistant
-                LoreA helps you develop and enrich your world by providing creative suggestions 
-                for your lore entries.
-                
-                #### How to Use:
-                1. Select any field you want to work on
-                2. Choose a generation style:
-                        
-                   • **Default** - Balanced, straightforward content
-                        
-                   • **Flavor Text** - Adds narrative flair
-                        
-                   • **World-Building Detail** - Focuses on deeper lore
-                        
-                   • **Narrative Hook** - Creates intriguing story hooks
-                3. Optionally add a prompt to guide the AI
-                4. Click "Inspire Me" to generate suggestions
+            ### Meet Your Lorekeeper Companion
+
+            Welcome to **LoreA**, your tireless companion in the grand art of world-weaving. Whether you're sketching the bones of a fledgling kingdom or breathing life into forgotten lands, LoreA is here to gently guide your hand and spark your imagination.
+
+            ### How to Begin Your Journey:
+
+            1. **Open a chapter** - Select the chapter of your lore you'd like to work on. Roles? Motivations? Allies or Enemies?
+
+            2. **Set the tone:**
+
+                * **Default** - Clear, steady guidance. A compass when you're unsure.
+                * **Flavor Text** - A dash of charm and color.
+                * **World-Building Detail** - Rich threads of history, culture, and depth.
+                * **Narrative Hook** - A spark to draw readers in.
+
+            3. **Guide LoreA** - Add an optional prompt to shape the voice of LoreA.
+
+            4. **Ask LoreA to “Tell Me a Tale”** - And watch your world unfold.
             """)
         
         # Get available fields for current template (excluding Name and Tags)
@@ -372,8 +464,8 @@ def display_entry(entry: Dict[str, Any]) -> None:
         
         # Field selection dropdown
         selected_field = st.selectbox(
-            "Select field to work with",
-            ["Select a field..."] + available_fields,  # Add default option
+            "Select a chapter to work with",
+            ["Open a chapter..."] + available_fields,  # Add default option
             key=f"field_select_{entry['title']}"
         )
         
@@ -382,20 +474,20 @@ def display_entry(entry: Dict[str, Any]) -> None:
             # Add Generation Style dropdown with dynamic options
             available_styles = FIELD_TO_STYLES.get(selected_field, ["Default"])
             generation_style = st.selectbox(
-                "Generation Style",
+                "Set the tone",
                 available_styles,
                 key=f"style_{entry['title']}_{selected_field}"
             )
             
             current_content = entry['fields'].get(selected_field, "")
             prompt = st.text_input(
-                "Enter a prompt (optional)",
+                "Guide LoreA (optional)",
                 key=f"prompt_{entry['title']}_{selected_field}",
-                help="Enter a prompt for the AI assistant to help with this field"
+                help="Help guide LoreA's voice and tone. Want something specific? Here is where you can shape it."
             )
             
             # Add Inspire Me button and preview
-            if st.button("✨ Inspire Me", key=f"inspire_{entry['title']}_{selected_field}"):
+            if st.button("✨ Tell Me a Tale", key=f"inspire_{entry['title']}_{selected_field}"):
                 generated = generate_field_content(
                     entry_title=entry['title'],
                     field_name=selected_field,
@@ -488,10 +580,19 @@ if entries:
         for idx, (category, tab) in enumerate(zip(categories, category_tabs)):
             with tab:
                 category_entries = entries_by_category[category]
-                entry_titles = [e['title'] for e in category_entries]
                 
-                # Display cards for all entries in the category
-                for entry in category_entries:
+                # Initialize page number for this category if not exists
+                if category not in st.session_state.page_numbers:
+                    st.session_state.page_numbers[category] = 0
+                
+                # Calculate pagination
+                start_idx = st.session_state.page_numbers[category] * st.session_state.entries_per_page
+                end_idx = start_idx + st.session_state.entries_per_page
+                page_entries = category_entries[start_idx:end_idx]
+                total_pages = (len(category_entries) + st.session_state.entries_per_page - 1) // st.session_state.entries_per_page
+                
+                # Display only the entries for current page
+                for entry in page_entries:
                     # Get appropriate summary field based on template type
                     summary_field = {
                         "Character": "Role",
@@ -518,10 +619,55 @@ if entries:
                         st.session_state.selected_category = category
                         st.session_state.show_editor = True
                         st.rerun()
-                    st.markdown("---")
+ 
                 
                 if not category_entries:
                     st.info(f"No {category} entries found.")
+                
+                # Add pagination controls after entries but before editor
+                if category_entries:  # Only show if there are entries
+                    # Calculate total pages
+                    total_pages = (len(category_entries) + st.session_state.entries_per_page - 1) // st.session_state.entries_per_page
+                    
+                    # Add custom CSS for compact buttons
+                    st.markdown("""
+                        <style>
+                            .stHorizontalBlock {
+                                gap: 0rem !important;
+                                padding: 0 !important;
+                                margin: 0 !important;
+                            }
+                            div[data-testid="column"] {
+                                padding: 0 !important;
+                                margin: 0 !important;
+                            }
+                            div[data-testid="stVerticalBlock"] > div {
+                                padding: 0 !important;
+                                margin: 0 !important;
+                            }
+                            .pagination-text {
+                                text-align: center;
+                                margin: 0;
+                                padding: 0;
+                            }
+                        </style>
+                    """, unsafe_allow_html=True)
+                    
+                    # Create compact button columns with page number display
+                    col1, col2, col3 = st.columns([1, 1, 1])
+                    with col1:
+                        prev_disabled = st.session_state.page_numbers[category] == 0
+                        if st.button("⬅️", key=f"prev_{category}", disabled=prev_disabled, use_container_width=True):
+                            st.session_state.page_numbers[category] = max(0, st.session_state.page_numbers[category] - 1)
+                            st.rerun()
+                    with col2:
+                        current_page = st.session_state.page_numbers[category] + 1
+                        st.markdown(f"<p class='pagination-text'>{current_page} of {total_pages}</p>", unsafe_allow_html=True)
+                    with col3:
+                        next_disabled = st.session_state.page_numbers[category] >= total_pages - 1
+                        if st.button("➡️", key=f"next_{category}", disabled=next_disabled, use_container_width=True):
+                            st.session_state.page_numbers[category] = min(total_pages - 1, st.session_state.page_numbers[category] + 1)
+                            st.rerun()
             
             # If this is the category of the selected entry, make this tab active
             if st.session_state.selected_category == category:
@@ -643,36 +789,25 @@ with st.expander("🛠️ Advanced Tools"):
     with tab1:
         st.markdown("#### 📥 Import Lore Entries")
         uploaded_json = st.file_uploader("Upload JSON File", type="json")
+
         if uploaded_json:
-            try:
-                entries = json.load(uploaded_json)
-                for entry in entries:
-                    add_lore_to_db(
-                        title=entry["fields"]["Name"],
-                        content=entry["fields"],
-                        tags=entry["fields"].get("Tags", []),
-                        template=entry["template"],
-                        linked_entries=entry.get("linked_entries", [])
-                    )
-                st.success(f"Imported {len(entries)} entries.")
-                st.rerun()
-            except Exception as e:
-                st.error(f"Failed to import: {e}")
+            with st.spinner("📚 Processing uploaded file..."):
+                try:
+                    entries = json.load(uploaded_json)
+                    success = import_entries_with_progress(entries)
+                    if success:
+                        st.success(f"✅ Successfully imported {len(entries)} entries!")
+                except Exception as e:
+                    st.error(f"Failed to import: {e}")
 
         st.markdown("**Or paste JSON directly below:**")
         json_input = st.text_area("Paste JSON array of entries", height=200)
         if st.button("Import Pasted JSON"):
             try:
                 entries = json.loads(json_input)
-                for entry in entries:
-                    add_lore_to_db(
-                        title=entry["fields"]["Name"],
-                        content=entry["fields"],
-                        tags=entry["fields"].get("Tags", []),
-                        template=entry["template"],
-                        linked_entries=entry.get("linked_entries", [])
-                    )
-                st.success(f"Imported {len(entries)} entries.")
+                success = import_entries_with_progress(entries)
+                if success:
+                    st.success(f"Imported {len(entries)} entries.")
             except Exception as e:
                 st.error(f"Failed to import pasted JSON: {e}")
     
@@ -727,13 +862,14 @@ with st.expander("🛠️ Advanced Tools"):
         with col1:
             if st.button("Cancel"):
                 st.session_state.confirm_delete_all = False
+                st.rerun()
         with col2:
             if st.button("Confirm Delete", type="primary"):
                 delete_all_entries()
                 delete_settings()
                 st.session_state.confirm_delete_all = False
                 st.success("All entries deleted.")
-        st.rerun()
+                st.rerun()
     else:
         if st.button("Delete Project", type="primary"):
             st.session_state.confirm_delete_all = True

@@ -2,12 +2,15 @@ import sqlite3
 import os
 import json
 import pdb
+import sys
 from typing import List, Dict, Any, Optional, Generator
 from dotenv import load_dotenv
 import numpy as np
 from openai import OpenAI
 import numpy.typing as npt
 from contextlib import contextmanager
+
+from ..logging.logger import log_info, log_error, log_warning, log_debug
 from ..utils.openai_logger import log_openai_interaction
 
 DB_PATH = "data/lore.db"
@@ -45,6 +48,7 @@ def clean_duplicate_entries():
         return deleted_count
 
 def init_db():
+    log_info("Initializing database...")
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS lore (
@@ -68,8 +72,8 @@ def init_db():
     
     # Check for and clean up duplicates
     deleted_count = clean_duplicate_entries()
-    if deleted_count > 0:
-        print(f"Cleaned up {deleted_count} duplicate entries")
+    if (deleted_count > 0):
+        log_info(f"Cleaned up {deleted_count} duplicate entries")
 
 def embed_text(text: str) -> npt.NDArray[np.float32]:
     """Generate embeddings for input text using OpenAI's API.
@@ -167,34 +171,53 @@ def add_lore_to_db(
     linked_entries: Optional[List[str]] = None
 ) -> None:
     """Add a new lore entry to the database."""
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        
-        # Get all existing titles for link computation
-        cursor.execute('SELECT title FROM lore')
-        all_titles = [row[0] for row in cursor.fetchall()]
-        
-        if isinstance(content, dict):
-            fields_json = json.dumps(content)
-            content_str = "\n".join(f"{k}: {v}" for k, v in content.items() if k != "Tags")
-            # Use provided linked_entries or compute them
-            final_linked_entries = linked_entries if linked_entries is not None else compute_linked_entries(content, all_titles)
-        else:
-            fields_json = json.dumps({})
-            content_str = content
-            final_linked_entries = linked_entries if linked_entries is not None else []
-        
-        tags_json = json.dumps(tags) if isinstance(tags, list) else tags
-        embedding = embed_text(content_str).tobytes()
-        linked_json = json.dumps(final_linked_entries)
-        
-        cursor.execute(
-            """INSERT INTO lore 
-               (title, content, tags, template, fields, embedding, linked_entries) 
-               VALUES (?, ?, ?, ?, ?, ?, ?)""",
-            (title, content_str, tags_json, template, fields_json, embedding, linked_json)
-        )
-        conn.commit()
+    log_info(f"Adding lore entry: {title}")
+    try:
+        # Check if entry already exists
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT id FROM lore WHERE title = ?', (title,))
+            if cursor.fetchone():
+                log_warning(f"Entry with title '{title}' already exists, skipping")
+                return
+
+            # Get all existing titles for link computation
+            cursor.execute('SELECT title FROM lore')
+            all_titles = [row[0] for row in cursor.fetchall()]
+            
+            if isinstance(content, dict):
+                fields_json = json.dumps(content)
+                # Extract meaningful content for embedding
+                content_str = "\n".join(
+                    f"{k}: {v}" for k, v in content.items() 
+                    if k != "Tags" and v and str(v).strip()
+                )
+                # Use provided linked_entries or compute them
+                final_linked_entries = linked_entries if linked_entries is not None else compute_linked_entries(content, all_titles)
+            else:
+                fields_json = json.dumps({})
+                content_str = content
+                final_linked_entries = linked_entries if linked_entries is not None else []
+            
+            if not content_str.strip():
+                log_warning(f"Empty content for entry '{title}', using title as content")
+                content_str = title
+            
+            tags_json = json.dumps(tags) if isinstance(tags, list) else tags
+            embedding = embed_text(content_str).tobytes()
+            linked_json = json.dumps(final_linked_entries)
+            
+            cursor.execute(
+                """INSERT INTO lore 
+                   (title, content, tags, template, fields, embedding, linked_entries) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (title, content_str, tags_json, template, fields_json, embedding, linked_json)
+            )
+            conn.commit()
+        log_info(f"Successfully added lore entry: {title}")
+    except Exception as e:
+        log_error(f"Failed to add lore entry: {title} - {str(e)}")
+        raise
 
 def get_all_lore_from_db():
     conn = sqlite3.connect(DB_PATH)
@@ -227,41 +250,59 @@ def get_relevant_lore(prompt: str, top_k: int = 5) -> List[str]:
     return [c for _, c in scored[:top_k]]
 
 def update_lore_entry(original_title: str, new_title: str, new_content: str, new_tags: List[str], new_template: Optional[str] = None, new_fields: Optional[Dict[str, Any]] = None) -> None:
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    embedding = embed_text(new_content).tobytes()
-    fields_json = json.dumps(new_fields) if new_fields else "{}"
-    cursor.execute('''
-        UPDATE lore
-        SET title = ?, content = ?, tags = ?, template = ?, fields = ?, embedding = ?
-        WHERE title = ?
-    ''', (new_title, new_content, json.dumps(new_tags), new_template, fields_json, embedding, original_title))
-    conn.commit()
-    conn.close()
+    log_info(f"Updating lore entry: {original_title} -> {new_title}")
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        embedding = embed_text(new_content).tobytes()
+        fields_json = json.dumps(new_fields) if new_fields else "{}"
+        cursor.execute('''
+            UPDATE lore
+            SET title = ?, content = ?, tags = ?, template = ?, fields = ?, embedding = ?
+            WHERE title = ?
+        ''', (new_title, new_content, json.dumps(new_tags), new_template, fields_json, embedding, original_title))
+        conn.commit()
+        conn.close()
+        log_info(f"Successfully updated lore entry: {new_title}")
+    except Exception as e:
+        log_error(f"Failed to update lore entry: {original_title} - {str(e)}")
+        raise
 
 def generate_text_from_lore(prompt: str, lore_entries: Optional[List[str]] = None) -> str:
-    if lore_entries is None:
-        lore_entries = get_relevant_lore(prompt)
-    lore_context = "\n".join(lore_entries)
-    final_prompt = f"Using the following lore context, write a response to: {prompt}\n\nLore:\n{lore_context}\n\nResponse:"
-    
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a narrative assistant for a game studio, helping write dialogue or story events based on lore."},
-            {"role": "user", "content": final_prompt}
-        ],
-        temperature=0.7,
-        max_tokens=300
-    )
-    return response.choices[0].message.content
+    log_info("Generating text from lore prompt")
+    try:
+        if lore_entries is None:
+            lore_entries = get_relevant_lore(prompt)
+        lore_context = "\n".join(lore_entries)
+        final_prompt = f"Using the following lore context, write a response to: {prompt}\n\nLore:\n{lore_context}\n\nResponse:"
+        
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a narrative assistant for a game studio, helping write dialogue or story events based on lore."},
+                {"role": "user", "content": final_prompt}
+            ],
+            temperature=0.7,
+            max_tokens=300
+        )
+        log_info("Successfully generated text from lore")
+        return response.choices[0].message.content
+    except Exception as e:
+        log_error(f"Failed to generate text from lore: {str(e)}")
+        raise
 
 def delete_lore_entry_by_title(title: str) -> None:
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM lore WHERE title = ?', (title,))
-    conn.commit()
-    conn.close()
+    log_info(f"Deleting lore entry: {title}")
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM lore WHERE title = ?', (title,))
+        conn.commit()
+        conn.close()
+        log_info(f"Successfully deleted lore entry: {title}")
+    except Exception as e:
+        log_error(f"Failed to delete lore entry: {title} - {str(e)}")
+        raise
 
 def delete_settings() -> None:
     """Delete all settings from the database."""

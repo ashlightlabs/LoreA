@@ -1,0 +1,128 @@
+[
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Kaelin Dross",
+      "Role": "Municipal Infrastructure Analyst",
+      "Motivation": "Maintain failing systems out of obligation and memory of a more stable past.",
+      "Relationships": "Works with Mila Ro; Avoids SensoCore Compliance; Friends with Null Iris",
+      "Tags": [
+        "infrastructure",
+        "old-world",
+        "tired"
+      ]
+    },
+    "linked_entries": [
+      "Mila Ro",
+      "SensoCore Compliance",
+      "Null Iris"
+    ]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Mila Ro",
+      "Role": "Bio-thermal Systems Engineer",
+      "Motivation": "Redirect municipal heat to underserved zones against protocol.",
+      "Relationships": "Trusted by Kaelin Dross; Secret member of Radian Loop Collective",
+      "Tags": [
+        "resourceful",
+        "covert",
+        "engineer"
+      ]
+    },
+    "linked_entries": [
+      "Kaelin Dross",
+      "Radian Loop Collective"
+    ]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "SensoCore Compliance",
+      "Goals": "Preserve urban order through neuro-compliance enforcement.",
+      "Beliefs / Code": "Behavior stability through continuous monitoring. Emotional variance is risk.",
+      "Allies / Enemies": "Partners with Municipal AI Cluster Theta; Conflicts with Radian Loop Collective",
+      "Tags": [
+        "surveillance",
+        "bureaucratic",
+        "control"
+      ]
+    },
+    "linked_entries": [
+      "Radian Loop Collective",
+      "Municipal AI Cluster Theta"
+    ]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "Relay Vaults",
+      "Description": "Decommissioned server bunkers echoing with half-erased AI logic. Informal shelters for signal scavengers.",
+      "Mood": "Hollow, low-frequency hum, flickers of light",
+      "Significance": "Rumored site of suppressed decision logs from the early flood response era.",
+      "Tags": [
+        "underground",
+        "scavenger",
+        "old tech"
+      ]
+    },
+    "linked_entries": [
+      "Null Iris"
+    ]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Patch Act Collapse",
+      "Summary": "The regulatory collapse that unraveled jurisdiction boundaries between AI-managed districts.",
+      "Who Was Involved": "SensoCore Compliance, Radian Loop Collective, citizen forums",
+      "Why It Matters": "Led to rise of citizen-led control initiatives and blackout of zone 3A.",
+      "Tags": [
+        "collapse",
+        "regulatory",
+        "decentralization"
+      ]
+    },
+    "linked_entries": [
+      "SensoCore Compliance",
+      "Radian Loop Collective"
+    ]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Memory Splice Key",
+      "Description": "Black market memory modifier used to rewrite identity packets across platforms.",
+      "Powers / Purpose": "Embed or erase targeted neural paths in low-shielded users.",
+      "Origin / Lore": "Traced to early blacksite labs in Vault sector 4; circulated via freelance agents like Null Iris.",
+      "Tags": [
+        "black market",
+        "neural",
+        "illegal tech"
+      ]
+    },
+    "linked_entries": [
+      "Null Iris",
+      "SensoCore Compliance"
+    ]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "Radian Loop Collective",
+      "Goals": "Empower residents to reroute resources and override system-level neglect.",
+      "Beliefs / Code": "Decentralization by necessity. Survival through cooperation.",
+      "Allies / Enemies": "Ally to Mila Ro; opposed by SensoCore for subverting resource pathways",
+      "Tags": [
+        "activist",
+        "resourceful",
+        "resistance"
+      ]
+    },
+    "linked_entries": [
+      "Mila Ro",
+      "SensoCore Compliance"
+    ]
+  }
+]

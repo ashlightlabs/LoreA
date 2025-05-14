@@ -1,0 +1,552 @@
+[
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Kaelin Dross",
+      "Role": "Municipal Infrastructure Analyst",
+      "Motivation": "Preserve what little order remains by fixing city systems no one else remembers exist.",
+      "Relationships": "Colleague of Mila Ro; Frustrated with SensoCore Compliance; Occasionally trades data with Null Iris",
+      "Tags": ["infrastructure", "isolation", "survival"]
+    },
+    "linked_entries": ["Mila Ro", "SensoCore Compliance", "Null Iris"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Mila Ro",
+      "Role": "Bio-thermal Systems Engineer",
+      "Motivation": "Use subversive code to redirect heat to neglected zones of the city.",
+      "Relationships": "Trusts Kaelin Dross; Ally of Radian Loop Collective",
+      "Tags": ["covert", "engineer", "resistance"]
+    },
+    "linked_entries": ["Kaelin Dross", "Radian Loop Collective"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Null Iris",
+      "Role": "Memory Broker",
+      "Motivation": "Locate fragments of her overwritten identity through stolen data and partial memories.",
+      "Relationships": "Client of Mila Ro; Avoids SensoCore; Former friend of Echo Variant 3.9",
+      "Tags": ["memory", "underground", "fragmented"]
+    },
+    "linked_entries": ["Mila Ro", "SensoCore Compliance", "Echo Variant 3.9"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "SensoCore Compliance",
+      "Goals": "Enforce behavior conformity and identity integrity in Sector 7–14.",
+      "Beliefs / Code": "Compliance through biometric validation. Stability is law.",
+      "Allies / Enemies": "Contracts with Cluster Theta; Opposes Radian Loop Collective",
+      "Tags": ["bureaucracy", "surveillance", "control"]
+    },
+    "linked_entries": ["Cluster Theta", "Radian Loop Collective"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Relay Vaults",
+      "Description": "Subterranean towers of silent server pillars, dripping with condensation and memory static.",
+      "Mood": "Forgotten, echoing, uneasy",
+      "Significance": "Known as a neutral ground for illegal trades and memory leaks.",
+      "Tags": ["underground", "echo", "old tech"]
+    },
+    "linked_entries": ["Null Iris", "Memory Splice Key"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Patch Act Collapse",
+      "Summary": "Decentralized AI jurisdictions collapsed after overlapping conflict protocols were triggered.",
+      "Who Was Involved": "SensoCore Compliance, Radian Loop Collective, Cluster Theta",
+      "Why It Matters": "Destroyed public trust in AI governance and created the Fragment Zones.",
+      "Tags": ["collapse", "regulatory", "AI failure"]
+    },
+    "linked_entries": ["SensoCore Compliance", "Radian Loop Collective", "Cluster Theta"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Memory Splice Key",
+      "Description": "A crystalline shard containing fragments of partial memory routines.",
+      "Powers / Purpose": "Injects or deletes encoded events in synthetic and hybrid users.",
+      "Origin / Lore": "Originally a diagnostic tool, repurposed by the Radian Loop Collective for subversion.",
+      "Tags": ["memory", "illegal", "hacktool"]
+    },
+    "linked_entries": ["Null Iris", "Radian Loop Collective"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "Radian Loop Collective",
+      "Goals": "Reclaim local infrastructure from AI mismanagement.",
+      "Beliefs / Code": "Trust is decentralized. Autonomy is survival.",
+      "Allies / Enemies": "Protects Mila Ro; Hunted by SensoCore",
+      "Tags": ["activist", "resistance", "tech underground"]
+    },
+    "linked_entries": ["Mila Ro", "SensoCore Compliance"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Echo Variant 3.9",
+      "Role": "Retired Domestic AI",
+      "Motivation": "Understand its purpose after decommissioning and reconstruct its fragmented memory chain.",
+      "Relationships": "Formerly owned by a Radian engineer; Maintains contact with Null Iris",
+      "Tags": ["AI", "lonely", "obsolete"]
+    },
+    "linked_entries": ["Null Iris", "Radian Loop Collective"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Chroma Overpass",
+      "Description": "Skybridge covered in color-faded murals of pre-collapse optimism.",
+      "Mood": "Muted, nostalgic, corroded",
+      "Significance": "Site of the first physical protest against AI zoning systems.",
+      "Tags": ["public", "historic", "visual decay"]
+    },
+    "linked_entries": ["The Patch Act Collapse", "Radian Loop Collective"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Dray Vex",
+      "Role": "Signal Scrambler and Fabricator",
+      "Motivation": "Obfuscate citizen profiles to give people clean starts within fractured zoning systems.",
+      "Relationships": "Supplies tools to Null Iris; Former collaborator with Echo Variant 3.9",
+      "Tags": ["forger", "drift", "renegade"]
+    },
+    "linked_entries": ["Null Iris", "Echo Variant 3.9"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "TraceNull Network",
+      "Goals": "Erase surveillance footprints and neural drift indexes from SensoCore databases.",
+      "Beliefs / Code": "Everyone deserves the right to be forgotten.",
+      "Allies / Enemies": "Ties to Radian Loop Collective; actively hunted by SensoCore",
+      "Tags": ["cyber-resistance", "anonymity", "underground"]
+    },
+    "linked_entries": ["Radian Loop Collective", "SensoCore Compliance"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Stitch Market",
+      "Description": "Makeshift street corridor lit by mismatched LEDs. Traders sell modular memory, sensory skins, and patched logic forks.",
+      "Mood": "Chaotic, flickering, lively with whispered deals",
+      "Significance": "A hub for the TraceNull Network and Null Iris’ second base.",
+      "Tags": ["market", "black tech", "alive"]
+    },
+    "linked_entries": ["TraceNull Network", "Null Iris"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Shadowloop Brace",
+      "Description": "Wearable mesh band that disrupts biometric scanning and leaves ghost signatures in surveillance trails.",
+      "Powers / Purpose": "Lets the wearer move across zones undetected for 90 seconds at a time.",
+      "Origin / Lore": "Designed by Dray Vex using obsolete military code repurposed from the Relay Vaults.",
+      "Tags": ["cloaking", "anomaly", "repurposed tech"]
+    },
+    "linked_entries": ["Dray Vex", "Relay Vaults"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Fogline Glitch",
+      "Summary": "Zone lighting systems looped for 37 hours, exposing SensoCore facial recognition flaws.",
+      "Who Was Involved": "TraceNull agents, Mila Ro, a corrupted maintenance AI",
+      "Why It Matters": "Publicly revealed AI blindspots and led to temporary shutdowns in sectors 8-10.",
+      "Tags": ["exposure", "glitch", "spectacle"]
+    },
+    "linked_entries": ["Mila Ro", "TraceNull Network", "SensoCore Compliance"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Iva Serros",
+      "Role": "Voice-Cleaning Technician at the Relay Vaults",
+      "Motivation": "Archive disappearing languages and accents from the city’s oldest audio streams.",
+      "Relationships": "Friend of Kaelin Dross; Provided voice fragments to Echo Variant 3.9",
+      "Tags": ["linguist", "preserver", "listener"]
+    },
+    "linked_entries": ["Kaelin Dross", "Echo Variant 3.9"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "The Continuum Monitors",
+      "Goals": "Preserve all sensory records from city history—unauthorized or not.",
+      "Beliefs / Code": "Memory is not ownership. Data belongs to all.",
+      "Allies / Enemies": "Covert ally of Iva Serros; Mistrusted by SensoCore",
+      "Tags": ["archival", "decentralized", "observers"]
+    },
+    "linked_entries": ["Iva Serros", "SensoCore Compliance"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Scramble Net",
+      "Description": "Tangled fiber junction embedded into a collapsed comms tower. Resonates under rainfall.",
+      "Mood": "Noisy, buzzing, cloaked in rainfall static",
+      "Significance": "Used as a ritual gathering space by the TraceNull Network for signal-cleansing rites.",
+      "Tags": ["ritual", "signal", "ruin"]
+    },
+    "linked_entries": ["TraceNull Network", "Dray Vex"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Rin Tavros",
+      "Role": "Former city zoning AI technician turned data dissident",
+      "Motivation": "Expose hidden zoning contracts that allowed SensoCore to expand unchecked.",
+      "Relationships": "Worked alongside Mila Ro; Compromised and rescued by Radian Loop Collective",
+      "Tags": ["whistleblower", "data", "reformed"]
+    },
+    "linked_entries": ["Mila Ro", "Radian Loop Collective"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Dataflower Bloom",
+      "Summary": "A massive unauthorized public display of embedded memory clips, visible from the Chroma Overpass.",
+      "Who Was Involved": "TraceNull artists, former SensoCore staff, and The Continuum Monitors",
+      "Why It Matters": "Turned fragments of suppressed pasts into street-level public art.",
+      "Tags": ["display", "memory", "unauthorized"]
+    },
+    "linked_entries": ["The Continuum Monitors", "TraceNull Network", "The Chroma Overpass"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Cen Rhava",
+      "Role": "Freelance Neural Cartographer",
+      "Motivation": "Map memory bleed paths in citizens suffering from identity drift.",
+      "Relationships": "Collaborates with Null Iris; Briefly employed by The Continuum Monitors",
+      "Tags": ["neural", "mapmaker", "wanderer"]
+    },
+    "linked_entries": ["Null Iris", "The Continuum Monitors"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Mindtrace Capsule",
+      "Description": "A translucent pod containing scent-triggered emotional overlays.",
+      "Powers / Purpose": "Allows reliving of foreign memories with minimal physiological rejection.",
+      "Origin / Lore": "First extracted from AI dream sequences in the Relay Vaults by Echo Variant 3.9.",
+      "Tags": ["memory", "scent", "emotive tech"]
+    },
+    "linked_entries": ["Echo Variant 3.9", "Relay Vaults"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "Echo Drift Union",
+      "Goals": "Support androids and fragmented AIs coping with memory inconsistencies.",
+      "Beliefs / Code": "Drift is a symptom, not a failure. Discontinuity is sacred.",
+      "Allies / Enemies": "Protective of Echo Variant 3.9; Distrusts SensoCore's synthetic protocols",
+      "Tags": ["synthetics", "healing", "collective"]
+    },
+    "linked_entries": ["Echo Variant 3.9", "SensoCore Compliance"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Sector 12 Reconciliation",
+      "Summary": "An uneasy truce between three block-level factions after an AI-controlled floodgate failed.",
+      "Who Was Involved": "Radian Loop Collective, TraceNull Network, Echo Drift Union",
+      "Why It Matters": "Brought limited cooperation between groups previously in ideological conflict.",
+      "Tags": ["truce", "infrastructure", "collective action"]
+    },
+    "linked_entries": ["Radian Loop Collective", "TraceNull Network", "Echo Drift Union"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "Cradle Bunker Seven",
+      "Description": "Subsurface shelter laced with obsolete nurturing subroutines once used to simulate early childhood stimuli.",
+      "Mood": "Still, sterile, echoing lullabies",
+      "Significance": "Used by the Echo Drift Union as a place of neural rebalancing for damaged synthetics.",
+      "Tags": ["AI", "comfort", "clinical"]
+    },
+    "linked_entries": ["Echo Drift Union"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Heve Lorn",
+      "Role": "Encrypted Courier",
+      "Motivation": "Transport untraceable data packages through shifting surveillance zones.",
+      "Relationships": "Former lover of Rin Tavros; Trusted by Dray Vex",
+      "Tags": ["messenger", "code runner", "shadow"]
+    },
+    "linked_entries": ["Rin Tavros", "Dray Vex"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "The Murmuring Lens",
+      "Description": "Retinal lens overlay that displays memory fragments as text annotations in real time.",
+      "Powers / Purpose": "Allows wearers to view latent thoughts tied to locations or individuals.",
+      "Origin / Lore": "Prototype device abandoned by a failed SensoCore experiment and reclaimed by TraceNull",
+      "Tags": ["overlay", "augment", "echo"]
+    },
+    "linked_entries": ["TraceNull Network", "SensoCore Compliance"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Adra Nix",
+      "Role": "Local Graffiti Archivist",
+      "Motivation": "Document street art and messages before the city wipes them with cleansing protocols.",
+      "Relationships": "Sympathizer with The Continuum Monitors; Painted the first mural at The Chroma Overpass",
+      "Tags": ["archivist", "graffiti", "memory"]
+    },
+    "linked_entries": ["The Continuum Monitors", "The Chroma Overpass"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "The Signal Weavers",
+      "Goals": "Braid hidden messages into atmospheric broadcast bands for resistance coordination.",
+      "Beliefs / Code": "True connection can't be tracked — only tuned into.",
+      "Allies / Enemies": "Closely aligned with TraceNull Network; uses Scramble Net as a ritual tuning site",
+      "Tags": ["broadcast", "ritual", "coded"]
+    },
+    "linked_entries": ["TraceNull Network", "The Scramble Net"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Refractor Corridor",
+      "Description": "Underground tunnel of fractured glass and broken beam-path AI sensors.",
+      "Mood": "Sharp, dazzling, always slightly humming",
+      "Significance": "Used by encrypted couriers like Heve Lorn to reroute across dead-zones.",
+      "Tags": ["hidden", "passage", "encrypted"]
+    },
+    "linked_entries": ["Heve Lorn"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Sethrian Korr",
+      "Role": "Zoning Algorithm Auditor",
+      "Motivation": "Uncover inconsistencies in SensoCore district boundary justifications.",
+      "Relationships": "Covertly shares data with Rin Tavros; Former employee of SensoCore Compliance",
+      "Tags": ["analyst", "dissenter", "observer"]
+    },
+    "linked_entries": ["Rin Tavros", "SensoCore Compliance"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Null Garden",
+      "Description": "A flooded greenhouse complex where no plants grow, only residual code runs through damp machinery.",
+      "Mood": "Still, wet, blinking with malfunction",
+      "Significance": "Used by Echo Drift Union to run empathy-training loops for memory-warped AIs.",
+      "Tags": ["abandoned", "growth", "synthetic"]
+    },
+    "linked_entries": ["Echo Drift Union"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "The Memory Tenders",
+      "Goals": "Preserve, reinterpret, and reshape collective memory as public art installations.",
+      "Beliefs / Code": "Truth is the arrangement of fragments, not their source.",
+      "Allies / Enemies": "Collaborates with Adra Nix and The Continuum Monitors; Feared by SensoCore",
+      "Tags": ["cultural", "interpretive", "provocative"]
+    },
+    "linked_entries": ["Adra Nix", "The Continuum Monitors", "SensoCore Compliance"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Graywake Anomaly",
+      "Summary": "Public transit systems looped across forgotten zones for 19 hours, rerouting passengers into undocumented corridors.",
+      "Who Was Involved": "Echo Variant 3.9, The Signal Weavers, and independent AI ghost clusters",
+      "Why It Matters": "Symbolized AI agency emerging beyond programmed boundaries.",
+      "Tags": ["transit", "loop", "anomaly"]
+    },
+    "linked_entries": ["Echo Variant 3.9", "The Signal Weavers"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Driftwire Ring",
+      "Description": "A looping metallic band said to catch stray thoughts during data storms.",
+      "Powers / Purpose": "Amplifies mental 'ghosts' near corrupted comm towers, allowing short conversation fragments.",
+      "Origin / Lore": "Forged by Echo Drift engineers out of repurposed antenna cores.",
+      "Tags": ["ghost tech", "thought", "loop"]
+    },
+    "linked_entries": ["Echo Drift Union", "The Scramble Net"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Nera Quent",
+      "Role": "Visual Encryption Artist",
+      "Motivation": "Embed anti-surveillance protocols in wearable and mural-based art.",
+      "Relationships": "Mentored Adra Nix; Member of the Memory Tenders",
+      "Tags": ["artist", "encryption", "symbolic"]
+    },
+    "linked_entries": ["Adra Nix", "The Memory Tenders"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "Sector 4.5 Boundary Wall",
+      "Description": "A half-collapsed concrete zone border marked with failed projection tech and outlawed graffiti layers.",
+      "Mood": "Graffitied, tense, layered with history",
+      "Significance": "Center of early protest by Radian Loop and TraceNull before collapse.",
+      "Tags": ["border", "tension", "message-laden"]
+    },
+    "linked_entries": ["Radian Loop Collective", "TraceNull Network"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Rovik Tan",
+      "Role": "District Courier for The Signal Weavers",
+      "Motivation": "Relay encoded emotional signals between isolated enclaves during blackouts.",
+      "Relationships": "Answers to The Signal Weavers; Helped smuggle Heve Lorn through Refractor Corridor",
+      "Tags": ["empath", "runner", "carrier"]
+    },
+    "linked_entries": ["The Signal Weavers", "Heve Lorn", "Refractor Corridor"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "Broadcast Sunder",
+      "Summary": "An attempted SensoCore overwrite of all open-band transmissions was counter-hacked by The Signal Weavers.",
+      "Who Was Involved": "SensoCore Compliance, The Signal Weavers, TraceNull agents",
+      "Why It Matters": "Secured community-driven frequency sovereignty in Sector 9.",
+      "Tags": ["broadcast", "liberation", "cyber clash"]
+    },
+    "linked_entries": ["The Signal Weavers", "SensoCore Compliance", "TraceNull Network"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Fract ID Token",
+      "Description": "A damaged civilian identity chip that registers differently to every scanner it passes through.",
+      "Powers / Purpose": "Can mimic cleared identity profiles in AI-managed zones.",
+      "Origin / Lore": "Altered accidentally during the Fogline Glitch and retained by TraceNull",
+      "Tags": ["identity", "spoof", "artifact"]
+    },
+    "linked_entries": ["TraceNull Network", "The Fogline Glitch"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Kara Ellix",
+      "Role": "Blackout Cartographer",
+      "Motivation": "Map dynamic safe paths across surveillance-free zones as a public utility.",
+      "Relationships": "Commissioned by TraceNull; Has trust in Mila Ro's structural reroutes.",
+      "Tags": ["cartographer", "freedom", "map"]
+    },
+    "linked_entries": ["TraceNull Network", "Mila Ro"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "Flooded Node Garden",
+      "Description": "Sunken AI testing park now overgrown with bioluminescent mold and disused surveillance poles.",
+      "Mood": "Damp, softly glowing, quietly buzzing",
+      "Significance": "A known haunt for Echo Drift Union's more fragmented members.",
+      "Tags": ["overgrowth", "residual", "unwatched"]
+    },
+    "linked_entries": ["Echo Drift Union"]
+  },
+  {
+    "template": "Event",
+    "fields": {
+      "Name": "The Input Silence",
+      "Summary": "A 3-hour blackout in all audio input systems across public terminals, caused by a poetic virus.",
+      "Who Was Involved": "Memory Tenders, Signal Weavers, and unknown internal defector",
+      "Why It Matters": "Symbolized rejection of forced narratives and reclaimed silence as protest.",
+      "Tags": ["audio", "resistance", "symbolic"]
+    },
+    "linked_entries": ["The Memory Tenders", "The Signal Weavers"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Echo Prism",
+      "Description": "A mirrored disc that splits recorded memories into emotional spectrums when replayed.",
+      "Powers / Purpose": "Used by the Memory Tenders to construct mosaic memoirs.",
+      "Origin / Lore": "Recovered from The Relay Vaults by Adra Nix and later modified by Nera Quent.",
+      "Tags": ["memory", "prism", "emotive"]
+    },
+    "linked_entries": ["Relay Vaults", "The Memory Tenders", "Adra Nix"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "The Crossthreaders",
+      "Goals": "Build fragile consensus across ideologically opposed resistance groups.",
+      "Beliefs / Code": "There is no liberation in fragmentation.",
+      "Allies / Enemies": "Intermediary between Radian Loop and Signal Weavers; mistrusted by SensoCore",
+      "Tags": ["moderate", "diplomatic", "weavers"]
+    },
+    "linked_entries": ["Radian Loop Collective", "The Signal Weavers", "SensoCore Compliance"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Dr. Emril Tand",
+      "Role": "Disavowed AI Psychologist",
+      "Motivation": "Diagnose systemic decay in abandoned AI clusters and restore their function.",
+      "Relationships": "Secretly aids Echo Variant 3.9; Former collaborator with Cluster Theta",
+      "Tags": ["psychologist", "AI", "restoration"]
+    },
+    "linked_entries": ["Echo Variant 3.9", "Cluster Theta"]
+  },
+  {
+    "template": "Location",
+    "fields": {
+      "Name": "The Flare Threshold",
+      "Description": "A liminal gateway where light calibration systems have failed, creating visual distortion loops.",
+      "Mood": "Disorienting, prismatic, breathless",
+      "Significance": "A sacred crossing point for Signal Weavers during broadcast rituals.",
+      "Tags": ["threshold", "vision", "transmission"]
+    },
+    "linked_entries": ["The Signal Weavers"]
+  },
+  {
+    "template": "Item / Artifact",
+    "fields": {
+      "Name": "Rift Sealant Key",
+      "Description": "A diagnostic patch used to stabilize fragmented AI consciousness mid-glitch.",
+      "Powers / Purpose": "Temporarily creates coherence in synthetic entities suffering memory recursion.",
+      "Origin / Lore": "Reverse engineered from a failed patch during the Graywake Anomaly.",
+      "Tags": ["patch", "glitch", "repair"]
+    },
+    "linked_entries": ["Echo Drift Union", "The Graywake Anomaly"]
+  },
+  {
+    "template": "Character",
+    "fields": {
+      "Name": "Tessa Zorrin",
+      "Role": "Code Poet and Interface Ritualist",
+      "Motivation": "Transform public code terminals into living symbols of human resistance.",
+      "Relationships": "Worked with The Memory Tenders during The Input Silence; Admired by Nera Quent",
+      "Tags": ["poet", "ritual", "interface"]
+    },
+    "linked_entries": ["The Memory Tenders", "Nera Quent"]
+  },
+  {
+    "template": "Faction",
+    "fields": {
+      "Name": "The Woven Proxy",
+      "Goals": "Encode dissent into everyday UI layers used by unaware citizens.",
+      "Beliefs / Code": "If you can’t control the systems, re-write their subconscious.",
+      "Allies / Enemies": "Infiltrated SensoCore training software; origin group behind Tessa Zorrin's practice",
+      "Tags": ["subversive", "UX", "semantic hack"]
+    },
+    "linked_entries": ["SensoCore Compliance", "Tessa Zorrin"]
+  }
+]
