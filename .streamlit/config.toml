@@ -4,8 +4,3 @@ backgroundColor = "#F1E8D7"
 secondaryBackgroundColor = "#F8F3EA"
 textColor = "#2B2B2B"
 font = "EB Garamond"
-
-
-[ui]
-buttonColor = "#7C3AED"       # Match primary color for consistency
-

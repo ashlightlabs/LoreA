@@ -97,3 +97,9 @@ ehthumbs.db
 
 # Logs 
 logs/
+
+# secrets
+.streamlit/secrets.toml
+
+# Local DB
+data/lore*
