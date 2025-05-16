@@ -5,6 +5,7 @@ from typing import Dict, Any, List, Optional
 import streamlit as st
 import json
 from PIL import Image
+import logging
 
 # Add the project root to Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -28,17 +29,22 @@ from backend.app.services.core import (
     process_template_fields  # Add this import
 )
 
+favicon_path = os.path.join(os.path.dirname(__file__), "assets", "favicon.png")
+st.set_page_config(page_title="LoreA",
+    page_icon=favicon_path,  # You can use an emoji
+    layout="wide")
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logger.info("App started")  # Will appear in logs
 
 if ("initializedDB" not in st.session_state) or (st.session_state.initializedDB == False):
     # Initialize the database
     init_db()
     st.session_state.initializedDB = True
 
-favicon_path = os.path.join(os.path.dirname(__file__), "assets", "favicon.png")
-st.set_page_config(page_title="LoreA",
-    page_icon=favicon_path,  # You can use an emoji
-    layout="wide")
+
 
 # Initialize all session state variables BEFORE any UI elements
 if "project_title" not in st.session_state:
