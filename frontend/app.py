@@ -6,6 +6,7 @@ import streamlit as st
 import json
 from PIL import Image
 import logging
+from random import choice
 
 # Add the project root to Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -305,6 +306,25 @@ FIELD_TO_STYLES = {
     "Origin / Lore": ["Default", "World-Building Detail", "Narrative Hook"],
 }
 
+LOADING_PHRASES = [
+    "🌱 Growing wild tales...",
+    "📚 Consulting ancient tomes...",
+    "🧙‍♀️ Stirring the cauldron of creativity...",
+    "🌿 Brewing narrative tea...",
+    "🎪 Juggling plot threads...",
+    "🔮 Peering through time's window...",
+    "🗝️ Unlocking forgotten chambers...",
+    "🎭 Donning the mask of mystery...",
+    "🌟 Catching falling stories...",
+    "🎪 Spinning tall tales...",
+    "🪄 Channeling narrative magic...",
+    "👁️ 👁️ Consulting the narrative gods...",
+    "🌊 Diving into narrative depths...",
+    "🧭 Following whispered legends...",
+    "🎭 Gathering tales from old...",
+    "📜 Unraveling ancient scrolls...",
+]
+
 entries = get_all_lore_from_db()
 expanded = False
 if(entries == []):
@@ -522,17 +542,18 @@ def display_entry(entry: Dict[str, Any]) -> None:
             
             # Add Inspire Me button and preview
             if st.button("✨ Tell Me a Tale", key=f"inspire_{entry['title']}_{selected_field}"):
-                generated = generate_field_content(
-                    entry_title=entry['title'],
-                    field_name=selected_field,
-                    template_type=entry['template'],
-                    current_content=current_content,
-                    user_prompt=prompt,
-                    tags=entry['tags'],
-                    generation_style=generation_style  # Pass the selected style
-                )
-                st.session_state.generated_content = generated
-                st.rerun()
+                with st.spinner(choice(LOADING_PHRASES)):
+                    generated = generate_field_content(
+                        entry_title=entry['title'],
+                        field_name=selected_field,
+                        template_type=entry['template'],
+                        current_content=current_content,
+                        user_prompt=prompt,
+                        tags=entry['tags'],
+                        generation_style=generation_style  # Pass the selected style
+                    )
+                    st.session_state.generated_content = generated
+                    st.rerun()
                 
             if st.session_state.generated_content:
                 st.markdown("#### 🪄 LoreA's Suggestion:")
