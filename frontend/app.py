@@ -68,6 +68,9 @@ if "page_numbers" not in st.session_state:
     st.session_state.page_numbers = {}
 if "import_status" not in st.session_state:
     st.session_state.import_status = None
+if "is_local" not in st.session_state:
+    # Check if running locally (not on Streamlit Cloud)
+    st.session_state.is_local = os.environ.get('STREAMLIT_BROWSER_GATHER_USAGE_STATS', '') != 'true'
 
 def import_entries_with_progress(entries, update_settings=False, sample_title=None, sample_desc=None):
     """Import entries with progress tracking."""
@@ -135,42 +138,60 @@ with col1:
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;1,400;1,600&family=Quicksand:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap');
 
 html, body, [class*="css"]  {
-   font-family: 'EB Garamond', 'Lora', serif;
+   font-family: 'Spectral', serif;
    background-color: #F1E8D7;
    color: #2B2B2B;
+   font-size: 18px;
+   line-height: 1.6;
+   letter-spacing: 0.01em;
+}
+
+/* Improve text readability */
+p, li {
+    max-width: 70ch;
+    margin-bottom: 1.2em;
+    font-family: 'Spectral', serif;
+    font-weight: 400;
 }
 
 h1 {
-   font-family: 'Lora', italic;
+   font-family: 'Vollkorn', serif;
    color: #B54B27;
+   font-size: 2.8rem;
+   margin-bottom: 1.5rem;
+   letter-spacing: -0.01em;
+   font-weight: 600;
+   font-style: italic;
 }
+
 h2, h3 {
-   font-family: 'Lora', serif;
+   font-family: 'Vollkorn', serif;
    color: #B54B27;
+   line-height: 1.3;
+   margin-top: 1.5em;
+   margin-bottom: 0.8em;
+   font-weight: 600;
 }
 
-/* Logo styles */
-.logo-container {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    z-index: 1000;
-    width: 80px;
-    height: 80px;
-    opacity: 0.85;
-    transition: opacity 0.2s;
+/* UI elements */
+button, select, .stSelectbox, [data-testid="stWidgetLabel"] {
+    font-family: 'Quicksand', sans-serif !important;
+    font-weight: 500;
 }
 
-.logo-container:hover {
-    opacity: 1;
-}
-
-/* Ensure logo doesn't overlap with content */
-.main {
-    margin-right: 100px;
+/* Input field improvements */
+[data-testid="stTextInput"] input, 
+[data-testid="stTextArea"] textarea {
+    font-family: 'Spectral', serif;
+    background-color: #F9F4E8;
+    border: 1px solid #D4A76A;
+    color: #2B2B2B;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    padding: 0.6em;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -285,7 +306,9 @@ if(entries == []):
         Start by forging a **character**, uncovering a **location**, or discovering a forgotten **artifact** using the **Lore Entry** below.  
         Each entry is a step deeper into the world you're creating.
 
-        Once you've begun, the **Lore Assistant** stands ready to help you expand your universe — suggesting details, deepening connections, and unlocking new possibilities.
+        Once you've begun, the **LoreA** can you help you expand your story — suggesting details, establishing connections, and unlocking new possibilities.
+                
+        **LoreA uses your existing lore entries to generate new content, so the more you add, the richer your world becomes.**
 
         ---
 
@@ -501,7 +524,7 @@ def display_entry(entry: Dict[str, Any]) -> None:
                 st.rerun()
                 
             if st.session_state.generated_content:
-                st.markdown("#### ✨ Generated Content")
+                st.markdown("#### 🪄 LoreA's Suggestion:")
                 st.markdown(st.session_state.generated_content)
                 
                 # Create a container with smaller columns for the buttons
@@ -550,6 +573,34 @@ if entries:
     st.markdown("---")
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("## 📜 Lore Entries")
+    
+    # Add simple filter bar
+    filter_col1, filter_col2 = st.columns([2, 1])
+    with filter_col1:
+        search = st.text_input("🔎", 
+            placeholder="Search entries...",
+            value=st.session_state.search_query or "",
+            label_visibility="collapsed")
+        if search != st.session_state.search_query:
+            st.session_state.search_query = search
+            st.session_state.page_numbers = {}  # Reset pagination
+            st.rerun()
+            
+    with filter_col2:
+        # Collect all tags
+        all_tags = set()
+        for entry in entries:
+            all_tags.update(entry.get('tags', []))
+        if all_tags:  # Only show if there are tags
+            selected_tags = st.multiselect("🏷️",
+                options=sorted(list(all_tags)),
+                default=st.session_state.selected_tags,
+                placeholder="Filter by tags...",
+                label_visibility="collapsed")
+            if selected_tags != st.session_state.selected_tags:
+                st.session_state.selected_tags = selected_tags
+                st.session_state.page_numbers = {}  # Reset pagination
+                st.rerun()
     
     filtered_entries = get_filtered_lore(
         tags=st.session_state.selected_tags if st.session_state.selected_tags else None,
@@ -770,16 +821,15 @@ if entries:
 with st.expander("🛠️ Advanced Tools"):
     st.subheader("Advanced World Building Tools")
     
-    # Developer Settings with a toggle
-    st.markdown("### 🔧 Development Options")
-    dev_mode = st.toggle("Dev Mode (disable OpenAI calls)", value=st.session_state.dev_mode)
-    if dev_mode != st.session_state.dev_mode:
-        st.session_state.dev_mode = dev_mode
-        set_setting("dev_mode", "true" if dev_mode else "false")
-        st.success("Dev mode " + ("enabled" if dev_mode else "disabled"))
-    
-    # Add separator
-    st.markdown("---")
+    # Only show Development Options in local environment
+    if st.session_state.is_local:
+        st.markdown("### 🔧 Development Options")
+        dev_mode = st.toggle("Dev Mode (disable OpenAI calls)", value=st.session_state.dev_mode)
+        if dev_mode != st.session_state.dev_mode:
+            st.session_state.dev_mode = dev_mode
+            set_setting("dev_mode", "true" if dev_mode else "false")
+            st.success("Dev mode " + ("enabled" if dev_mode else "disabled"))
+        st.markdown("---")
     
     # Data Management Section
     st.markdown("### 📤 Data Management")

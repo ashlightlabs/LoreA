@@ -94,3 +94,6 @@ venv.bak/
 # Windows
 Thumbs.db
 ehthumbs.db
+
+# Logs 
+logs/
