@@ -961,3 +961,14 @@ with st.expander("🛠️ Advanced Tools"):
     st.markdown("---")
     st.info("Additional world building tools coming soon...")
 
+# After favicon configuration, add sidebar content
+st.sidebar.markdown("### 🌟 Help Shape LoreA")
+st.sidebar.markdown("""
+    Your feedback directly influences which features we develop next!
+    
+    [📝 Share Your Feedback](https://docs.google.com/forms/d/e/1FAIpQLSfzb38_l6UOpwIr_5xpv3Sfw5u6zdlcV9Nvb3zpU5Mh_z9sxQ/viewform?usp=header)
+    
+    Every suggestion helps make LoreA a better world-building companion.
+""")
+st.sidebar.markdown("---")
+
