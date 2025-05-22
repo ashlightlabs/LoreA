@@ -972,3 +972,12 @@ st.sidebar.markdown("""
 """)
 st.sidebar.markdown("---")
 
+st.sidebar.markdown("""
+    **Interested in following our journey?**
+    
+    [🌍 Follow us on Bluesky](https://bsky.app/profile/ashlightstudio.bsky.social)
+    
+    [✖️ Follow us on X](https://x.com/ashlightstudio)
+    """)
+st.sidebar.markdown("---")
+
