@@ -337,7 +337,7 @@ if(entries == []):
         Start by forging a **character**, uncovering a **location**, or discovering a forgotten **artifact** using the **Lore Entry** below.  
         Each entry is a step deeper into the world you're creating.
 
-        Once you've begun, the **LoreA** can you help you expand your story — suggesting details, establishing connections, and unlocking new possibilities.
+        Once you've begun, **LoreA** can you help you expand your story — suggesting details, establishing connections, and unlocking new possibilities.
                 
         **LoreA uses your existing lore entries to generate new content, so the more you add, the richer your world becomes.**
 
