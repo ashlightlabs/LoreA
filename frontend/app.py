@@ -981,3 +981,13 @@ st.sidebar.markdown("""
     """)
 st.sidebar.markdown("---")
 
+st.sidebar.markdown("""### 🗺️ Roadmap
+    * MVP: LoreA Assistant <-- Current 
+    * Engine Integration (Unreal, eventual Unity and custom)
+    * Branching Narratives
+    * Lore Generation based on player actions
+    * Lore Timelines
+    * World Relationships Visualization
+    * ... more to come!
+    """)
+st.sidebar.markdown("---")
