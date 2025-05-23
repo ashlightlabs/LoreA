@@ -975,9 +975,9 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("""
     **Interested in following our journey?**
     
-    [🌍 Follow us on Bluesky](https://bsky.app/profile/ashlightstudio.bsky.social)
+    [🌍 Follow us on Bluesky](https://bsky.app/profile/ashlightlabs.bsky.social)
     
-    [✖️ Follow us on X](https://x.com/ashlightstudio)
+    [✖️ Follow us on X](https://x.com/ashlightlabs)
     """)
 st.sidebar.markdown("---")
 
